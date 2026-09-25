@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>FallWatch Local</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Local safety prototype</p>
+      <h1>FallWatch <span>Local</span></h1>
+    </div>
+    <div class="system-state" aria-live="polite">
+      <span class="state-dot" id="state-dot"></span>
+      <span id="system-state">Stopped</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="warning" aria-label="Important prototype warning">
+      <strong>Prototype only</strong>
+      <p>Prototype only — do not rely on this as the sole way to detect a fall or contact emergency services.</p>
+    </section>
+
+    <section class="alert-panel" id="alert-panel" aria-live="assertive" hidden>
+      <div>
+        <p class="eyebrow">Possible fall detected</p>
+        <h2>Caregiver alert in <span id="countdown">15</span> seconds</h2>
+        <p id="alert-reason">Review the camera status. Cancel only if help is not needed.</p>
+      </div>
+      <button class="button button-cancel" id="cancel-alert" type="button">I’m OK — cancel alert</button>
+    </section>
+
+    <div class="dashboard-grid">
+      <section class="feed-card" aria-labelledby="feed-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Camera 01</p>
+            <h2 id="feed-title">Live room view</h2>
+          </div>
+          <span class="feed-badge" id="feed-badge">Camera off</span>
+        </div>
+        <div class="video-shell">
+          <img id="video-feed" src="/video.mjpg" alt="Local webcam feed for fall screening">
+          <div class="video-status" id="video-status">Start monitoring to enable the camera</div>
+        </div>
+        <p class="privacy-copy"><strong>Privacy:</strong> Only locally screened candidate frames are sent to the configured AI model. The continuous camera feed stays on this computer.</p>
+      </section>
+
+      <aside class="control-card" aria-labelledby="controls-title">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">System control</p>
+            <h2 id="controls-title">Monitoring</h2>
+          </div>
+        </div>
+
+        <div class="control-actions">
+          <button class="button button-primary" id="start-monitoring" type="button">Start monitoring</button>
+          <button class="button button-secondary" id="stop-monitoring" type="button" disabled>Stop</button>
+        </div>
+        <p class="control-note">The camera remains off until you start monitoring. Starting also enables the local countdown alarm.</p>
+
+        <div class="status-stack" aria-label="Service status">
+          <div class="status-row">
+            <span>Camera</span>
+            <strong id="camera-status">Off</strong>
+          </div>
+          <div class="status-row">
+            <span>AI review</span>
+            <strong id="ai-status">Idle</strong>
+          </div>
+          <div class="status-row">
+            <span>Caregiver webhook</span>
+            <strong id="webhook-status">Idle</strong>
+          </div>
+        </div>
+
+        <div class="error-message" id="error-message" role="alert" hidden></div>
+      </aside>
+    </div>
+
+    <div class="details-grid">
+      <section class="detail-card" aria-labelledby="review-title">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">Most recent check</p>
+            <h2 id="review-title">AI review</h2>
+          </div>
+          <span class="review-label" id="review-label">No review yet</span>
+        </div>
+        <div id="latest-review" class="empty-state">Candidate sequences will appear here after local motion screening.</div>
+      </section>
+
+      <section class="detail-card events-card" aria-labelledby="events-title">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">Stored locally</p>
+            <h2 id="events-title">Recent events</h2>
+          </div>
+          <span class="event-count" id="event-count">0 events</span>
+        </div>
+        <div id="events-list" class="events-list">
+          <p class="empty-state">No fall events recorded.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p>Local prototype. Not a medical device or emergency response service.</p>
+    <p id="poll-status" aria-live="polite">Connecting to local service…</p>
+  </footer>
+</body>
+</html>

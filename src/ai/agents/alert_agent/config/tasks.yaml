@@ -1,0 +1,20 @@
+fall_review_task:
+  description: |
+    Inspect all four ordered JPEG frames using your image tool:
+
+    1. T-1.5 seconds: {image_1}
+    2. T-0.5 seconds: {image_2}
+    3. T: {image_3}
+    4. T+1.0 seconds: {image_4}
+
+    Decide whether one visible person transitions from an upright or seated
+    posture to the floor and remains down. Distinguish a fall from intentional
+    sitting, intentional lying down, exercise, and camera motion. Return
+    `uncertain` instead of guessing when the person or transition is obscured.
+    Keep the reason short and do not infer medical facts. Classification must
+    be exactly `fall`, `not_fall`, or `uncertain`; confidence must be between
+    0 and 1.
+  expected_output: >
+    A FallReview object containing classification, confidence, person_visible,
+    and a short reason supported only by visible evidence.
+  agent: fall_reviewer
